@@ -25,10 +25,14 @@ def load_data():
     return pd.read_csv(
         "./datos_energia.csv",
         sep=",",
-        parse_dates=["local_timestamp"]    )
+        parse_dates=["time"]    )
+    
 
 # Cargar datos
 data = load_data()
+data['time'] = pd.to_datetime(data['time'], format="%Y-%m-%d %H:%M:%S")
+data = data.set_index('time')
+print("Data loaded",data)
 
 # Graficar serie
 def plot_series(data, initial_date, proy):
@@ -243,4 +247,4 @@ def update_output_div(date, hour, proy):
 
 # Run the server
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run(debug=True)
